@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ApiPublicDiscordEventsRouteImport } from './routes/api/public/discord/events'
 import { Route as ApiPublicDiscordInteractionsRouteImport } from './routes/api/public/discord/interactions'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicDiscordEventsRoute = ApiPublicDiscordEventsRouteImport.update({
@@ -32,35 +38,47 @@ const ApiPublicDiscordInteractionsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/api/public/discord/events': typeof ApiPublicDiscordEventsRoute
   '/api/public/discord/interactions': typeof ApiPublicDiscordInteractionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/api/public/discord/events': typeof ApiPublicDiscordEventsRoute
   '/api/public/discord/interactions': typeof ApiPublicDiscordInteractionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/api/public/discord/events': typeof ApiPublicDiscordEventsRoute
   '/api/public/discord/interactions': typeof ApiPublicDiscordInteractionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/api/public/discord/events' | '/api/public/discord/interactions'
+    | '/'
+    | '/auth'
+    | '/api/public/discord/events'
+    | '/api/public/discord/interactions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/discord/events' | '/api/public/discord/interactions'
+  to:
+    | '/'
+    | '/auth'
+    | '/api/public/discord/events'
+    | '/api/public/discord/interactions'
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/api/public/discord/events'
     | '/api/public/discord/interactions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ApiPublicDiscordEventsRoute: typeof ApiPublicDiscordEventsRoute
   ApiPublicDiscordInteractionsRoute: typeof ApiPublicDiscordInteractionsRoute
 }
@@ -72,6 +90,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/discord/events': {
@@ -93,6 +118,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ApiPublicDiscordEventsRoute: ApiPublicDiscordEventsRoute,
   ApiPublicDiscordInteractionsRoute: ApiPublicDiscordInteractionsRoute,
 }
