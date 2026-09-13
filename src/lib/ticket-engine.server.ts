@@ -123,13 +123,12 @@ export async function openTicket(opts: {
   await log(guild, `🎫 Ticket #${ticket.ticket_number} opened by <@${opts.userId}> in <#${channel.id}>`);
 
   if (opts.subject) {
-    await handleTicketMessage({
-      guildId: opts.guildId,
-      channelId: channel.id,
-      authorId: opts.userId,
-      authorName: opts.username,
+    await supabaseAdmin.from("ticket_messages").insert({
+      ticket_id: ticket.id,
+      author_id: opts.userId,
+      author_name: opts.username,
+      source: "user",
       content: opts.subject,
-      isFirst: true,
     });
   }
 
