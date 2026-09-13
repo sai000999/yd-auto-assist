@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/_authenticated/tickets")({
+export const Route = createFileRoute("/_authenticated/tickets/")({
   head: () => ({
     meta: [
       { title: "Tickets — Y2M Tickets" },
