@@ -4,6 +4,7 @@ import { Bot, LayoutDashboard, LifeBuoy, LogOut, Settings, Ticket, Workflow, Zap
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { claimFirstAdmin } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -31,7 +32,11 @@ function AdminLayout() {
   const { data: isAdmin, isLoading } = useQuery({
     queryKey: ["is-admin"],
     queryFn: async () => {
-      await supabase.rpc("claim_first_admin");
+      try {
+        await claimFirstAdmin({ data: undefined });
+      } catch {
+        /* first admin already exists */
+      }
       const { data: user } = await supabase.auth.getUser();
       if (!user.user) return false;
       const { data } = await supabase

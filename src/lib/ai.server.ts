@@ -1,7 +1,6 @@
 type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 
 export async function generateAiReply(opts: {
-  model: string;
   systemPrompt: string;
   knowledgeBase: string;
   history: { source: string; author_name: string; content: string }[];
@@ -37,7 +36,7 @@ export async function generateAiReply(opts: {
       "Lovable-API-Key": apiKey,
       "X-Lovable-AIG-SDK": "fetch",
     },
-    body: JSON.stringify({ model: opts.model, messages }),
+    body: JSON.stringify({ model: "openai/gpt-6-astra", messages }),
   });
 
   if (!res.ok) {

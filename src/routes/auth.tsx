@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { claimFirstAdmin } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -50,7 +51,11 @@ function AuthPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        await supabase.rpc("claim_first_admin");
+        try {
+          await claimFirstAdmin({ data: undefined });
+        } catch {
+          /* an admin already exists */
+        }
         navigate({ to: "/dashboard", replace: true });
       }
     } catch (error) {

@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAiRouteImport } from './routes/_authenticated/ai'
 import { Route as AuthenticatedAutomationsRouteImport } from './routes/_authenticated/automations'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTicketsIndexRouteImport } from './routes/_authenticated/tickets.index'
 import { Route as AuthenticatedTicketsTicketIdRouteImport } from './routes/_authenticated/tickets.$ticketId'
 import { Route as ApiPublicDiscordEventsRouteImport } from './routes/api/public/discord/events'
@@ -50,6 +51,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTicketsIndexRoute =
   AuthenticatedTicketsIndexRouteImport.update({
     id: '/tickets/',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/ai': typeof AuthenticatedAiRoute
   '/automations': typeof AuthenticatedAutomationsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/tickets/$ticketId': typeof AuthenticatedTicketsTicketIdRoute
   '/tickets/': typeof AuthenticatedTicketsIndexRoute
   '/api/public/discord/events': typeof ApiPublicDiscordEventsRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/ai': typeof AuthenticatedAiRoute
   '/automations': typeof AuthenticatedAutomationsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/tickets/$ticketId': typeof AuthenticatedTicketsTicketIdRoute
   '/tickets': typeof AuthenticatedTicketsIndexRoute
   '/api/public/discord/events': typeof ApiPublicDiscordEventsRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/_authenticated/ai': typeof AuthenticatedAiRoute
   '/_authenticated/automations': typeof AuthenticatedAutomationsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tickets/$ticketId': typeof AuthenticatedTicketsTicketIdRoute
   '/_authenticated/tickets/': typeof AuthenticatedTicketsIndexRoute
   '/api/public/discord/events': typeof ApiPublicDiscordEventsRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/ai'
     | '/automations'
     | '/dashboard'
+    | '/settings'
     | '/tickets/$ticketId'
     | '/tickets/'
     | '/api/public/discord/events'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/ai'
     | '/automations'
     | '/dashboard'
+    | '/settings'
     | '/tickets/$ticketId'
     | '/tickets'
     | '/api/public/discord/events'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/_authenticated/ai'
     | '/_authenticated/automations'
     | '/_authenticated/dashboard'
+    | '/_authenticated/settings'
     | '/_authenticated/tickets/$ticketId'
     | '/_authenticated/tickets/'
     | '/api/public/discord/events'
@@ -198,6 +210,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tickets/': {
       id: '/_authenticated/tickets/'
       path: '/tickets'
@@ -233,6 +252,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAiRoute: typeof AuthenticatedAiRoute
   AuthenticatedAutomationsRoute: typeof AuthenticatedAutomationsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTicketsTicketIdRoute: typeof AuthenticatedTicketsTicketIdRoute
   AuthenticatedTicketsIndexRoute: typeof AuthenticatedTicketsIndexRoute
 }
@@ -241,6 +261,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAiRoute: AuthenticatedAiRoute,
   AuthenticatedAutomationsRoute: AuthenticatedAutomationsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTicketsTicketIdRoute: AuthenticatedTicketsTicketIdRoute,
   AuthenticatedTicketsIndexRoute: AuthenticatedTicketsIndexRoute,
 }

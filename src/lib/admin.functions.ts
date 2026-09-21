@@ -2,12 +2,27 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
-async function assertAdmin(context: { supabase: { rpc: (fn: string, args: object) => Promise<{ data: unknown }> }; userId: string }) {
-  const { data } = await context.supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
-  if (data !== true) throw new Error("Forbidden");
+type AdminContext = {
+  supabase: {
+    from: (table: string) => {
+      select: (cols: string) => {
+        eq: (c: string, v: string) => {
+          eq: (c: string, v: string) => { maybeSingle: () => Promise<{ data: unknown }> };
+        };
+      };
+    };
+  };
+  userId: string;
+};
+
+async function assertAdmin(context: AdminContext) {
+  const { data } = await context.supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", context.userId)
+    .eq("role", "admin")
+    .maybeSingle();
+  if (!data) throw new Error("Forbidden");
 }
 
 export const registerCommands = createServerFn({ method: "POST" })

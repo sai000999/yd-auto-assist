@@ -50,7 +50,12 @@ export const Route = createFileRoute("/api/public/discord/interactions")({
             const name = interaction.data?.name;
             if (name === "ticket") {
               const subject = interaction.data?.options?.find((o) => o.name === "subject")?.value;
-              const result = await openTicket({ guildId, userId: user.id, username, subject });
+              const result = await openTicket({
+                guildId,
+                userId: user.id,
+                username,
+                ...(subject ? { subject } : {}),
+              });
               return reply(
                 result.alreadyOpen
                   ? `You already have an open ticket: <#${result.channelId}>`
@@ -59,7 +64,7 @@ export const Route = createFileRoute("/api/public/discord/interactions")({
             }
             if (name === "close") {
               const closed = await closeTicket({
-                channelId: interaction.channel_id,
+                ...(interaction.channel_id ? { channelId: interaction.channel_id } : {}),
                 closedBy: username,
               });
               return reply(closed ? "Ticket closed." : "This channel is not an open ticket.");
@@ -88,7 +93,7 @@ export const Route = createFileRoute("/api/public/discord/interactions")({
             }
             if (id === "y2m_close") {
               const closed = await closeTicket({
-                channelId: interaction.channel_id,
+                ...(interaction.channel_id ? { channelId: interaction.channel_id } : {}),
                 closedBy: username,
               });
               return reply(closed ? "Ticket closed." : "This ticket is already closed.");

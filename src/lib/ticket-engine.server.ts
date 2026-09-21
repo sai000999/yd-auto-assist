@@ -295,7 +295,6 @@ export async function handleTicketMessage(opts: {
     .limit(30);
 
   const reply = await generateAiReply({
-    model: ai.model,
     systemPrompt: ai.system_prompt,
     knowledgeBase: ai.knowledge_base,
     history: (history ?? []) as { source: string; author_name: string; content: string }[],
