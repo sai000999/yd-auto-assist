@@ -29,12 +29,6 @@ export const Route = createFileRoute("/_authenticated/ai")({
   component: AiPage,
 });
 
-const MODELS = [
-  { value: "google/gemini-3.8-flash", label: "Fast & smart (recommended)" },
-  { value: "google/gemini-3.7-flash", label: "Fast (previous generation)" },
-  { value: "google/gemini-3.1-flash-lite", label: "Cheapest, high volume" },
-  { value: "google/gemini-3.1-pro-preview", label: "Deepest reasoning (slower)" },
-];
 
 type AiRow = {
   id: string;
@@ -136,21 +130,6 @@ function AiPage() {
           />
         </div>
 
-        <div className="space-y-2">
-          <Label>Model</Label>
-          <Select value={form.model} onValueChange={(model) => setForm({ ...form, model })}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {MODELS.map((m) => (
-                <SelectItem key={m.value} value={m.value}>
-                  {m.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
 
         <div className="space-y-2">
           <Label htmlFor="prompt">Personality & rules</Label>
