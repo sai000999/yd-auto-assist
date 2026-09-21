@@ -64,7 +64,7 @@ export const Route = createFileRoute("/api/public/discord/interactions")({
             }
             if (name === "close") {
               const closed = await closeTicket({
-                channelId: interaction.channel_id,
+                ...(interaction.channel_id ? { channelId: interaction.channel_id } : {}),
                 closedBy: username,
               });
               return reply(closed ? "Ticket closed." : "This channel is not an open ticket.");
@@ -93,7 +93,7 @@ export const Route = createFileRoute("/api/public/discord/interactions")({
             }
             if (id === "y2m_close") {
               const closed = await closeTicket({
-                channelId: interaction.channel_id,
+                ...(interaction.channel_id ? { channelId: interaction.channel_id } : {}),
                 closedBy: username,
               });
               return reply(closed ? "Ticket closed." : "This ticket is already closed.");
