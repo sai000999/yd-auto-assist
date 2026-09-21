@@ -50,7 +50,12 @@ export const Route = createFileRoute("/api/public/discord/interactions")({
             const name = interaction.data?.name;
             if (name === "ticket") {
               const subject = interaction.data?.options?.find((o) => o.name === "subject")?.value;
-              const result = await openTicket({ guildId, userId: user.id, username, subject });
+              const result = await openTicket({
+                guildId,
+                userId: user.id,
+                username,
+                ...(subject ? { subject } : {}),
+              });
               return reply(
                 result.alreadyOpen
                   ? `You already have an open ticket: <#${result.channelId}>`
