@@ -50,7 +50,11 @@ function AuthPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        await supabase.rpc("claim_first_admin");
+        try {
+          await claimFirstAdmin({ data: undefined });
+        } catch {
+          /* an admin already exists */
+        }
         navigate({ to: "/dashboard", replace: true });
       }
     } catch (error) {
