@@ -4,7 +4,6 @@ import { Bot, LayoutDashboard, LifeBuoy, LogOut, Settings, Ticket, Workflow, Zap
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { claimFirstAdmin } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
