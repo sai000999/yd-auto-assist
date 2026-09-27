@@ -51,11 +51,6 @@ function AuthPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        try {
-          await claimFirstAdmin({ data: undefined });
-        } catch {
-          /* an admin already exists */
-        }
         navigate({ to: "/dashboard", replace: true });
       }
     } catch (error) {
